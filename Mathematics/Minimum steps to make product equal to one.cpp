@@ -1,31 +1,36 @@
+// Time is O(N) and Space is O(1)
+
 class Solution
 {
   public:
-    int makeProductOne(int arr[], int n)
+    int makeProductOne(int arr[], int N)
     {
-        int count=0;
-        int pro=1;
-        int zeroNum=0;
-        for(int i=0;i<n;i++)
+        int prod = 1;
+        int stepsRequired = 0;
+        int zeroCnt = 0;
+        
+        for(int i=0; i<N; i++)
         {
-            count=count+(abs(abs(arr[i])-1));
-            if(arr[i]<0)
+            if(arr[i] > 0)
             {
-                pro=pro*-1;
+                stepsRequired+=(arr[i]-1);
+                prod*=1;
             }
-            else if(arr[i]>0)
+            else if(arr[i]<0)
             {
-                pro=pro*1;
+                stepsRequired+=(abs(arr[i])-1);
+                prod*=-1;
             }
             else
             {
-                zeroNum++;
+                zeroCnt++;
             }
         }
-        if(pro==-1&&zeroNum==0)
+        
+        if(prod<0 && zeroCnt==0)
         {
-            count=count+2;
+            return stepsRequired + 2;
         }
-        return count;
+        return stepsRequired + zeroCnt;
     }
 };
