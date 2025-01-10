@@ -1,22 +1,27 @@
+/*Time :- log(n) with base 5 and Space :- O(1)*/
+
 class Solution
 {
-public:
+  public:
     int trailingZeroes(int n)
     {
-        int ans=0;
-        int i=1;
+        int ans = 0;
+        int flag = 1;
+        int fiveMultiple = 1;
         
-        while(1)
+        while(flag)
         {
-            int quotient=n/pow(5,i);
-            if(quotient==0)
+            fiveMultiple = fiveMultiple * 5;
+            if(n/fiveMultiple == 0)
             {
-                break;
+                flag = 0;
             }
-            ans=ans+quotient;
-            i++;
+            else
+            {
+                ans+=(n/fiveMultiple);
+            }
         }
-        return count;
+        return ans;
     }
 };
 
