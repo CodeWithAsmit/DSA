@@ -1,4 +1,4 @@
-/* Approach 1 */
+/* Approach 1 O(N) + O(N) + O(N) and Space O(N) + O(N) */
 
 class Solution
 {
@@ -47,33 +47,7 @@ public:
     }
 };
 
-/* Approach 2 */
-
-class Solution
-{
-public:
-    int maxProduct(vector<int>&nums)
-    {
-        int ans=nums[0];
-        int mx=ans;
-        int mn=ans;
-        
-        for(int i=1;i<nums.size();i++)
-        {
-            if(nums[i]<0)
-            {
-               swap(mx,mn);
-            }
-
-            mx=max(nums[i],mx*nums[i]);
-            mn=min(nums[i],mn*nums[i]);
-            ans=max(ans,mx);
-        }
-        return ans;    
-    }
-};
-
-/* Approach 3 */
+/* Approach 2 O(N) + O(N) and O(1) */
 
 class Solution
 {
@@ -104,5 +78,31 @@ public:
             }
         }
         return ans;
+    }
+};
+
+/* Approach 3 O(N) and O(1) --> Single Triversal */
+
+class Solution
+{
+public:
+    int maxProduct(vector<int>&nums)
+    {
+        int ans=nums[0];
+        int mx=ans;
+        int mn=ans;
+        
+        for(int i=1;i<nums.size();i++)
+        {
+            if(nums[i]<0)
+            {
+               swap(mx,mn);
+            }
+
+            mx=max(nums[i],mx*nums[i]);
+            mn=min(nums[i],mn*nums[i]);
+            ans=max(ans,mx);
+        }
+        return ans;    
     }
 };
