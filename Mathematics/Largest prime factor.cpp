@@ -1,63 +1,53 @@
-/*Complexity :- N*sqrt(n)*/
+/* Time Complexity :- n * sqrt(n) */
+
 class Solution
 {
-    public: 
-    int prime(int N)
+  public:
+    bool isPrime(int n)
     {
-        int flag=0;
-        if(N==1)
+        if(n==1)
         {
             return 0;
         }
-        else if(N==2)
+        
+        int temp=sqrt(n);
+        
+        for(int i=2;i<=temp;i++)
         {
-            return 1;
-        }
-        else
-        {
-        for(int i=2;i<=sqrt(N);i++)
-        {
-            if(N%i==0&&N!=2)
+            if(n%i==0)
             {
-                flag=1;
-                break;
+                return 0;
             }
         }
-        if(flag==1)
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
-        }   
+        return 1;
     }
-    long long int largestPrimeFactor(int N)
+    
+    int largestPrimeFactor(int n)
     {
-        long long ans=INT_MIN;
-        if(prime(N))
+        if(isPrime(n))
         {
-            return N;
+            return n;
         }
-        else
+        
+        int temp = n/2;
+        
+        while(temp!=1)
         {
-            for(long long i=2;i<=N;i++)
+            if(n % temp==0 && isPrime(temp))
             {
-                if(N%i==0)
-                {
-                    if(prime(i))
-                    {
-                        ans=max(ans,i);
-                    }
-                }
+                return temp;
             }
-            return ans;
+            else
+            {
+                temp--;
+            }
         }
+        return 2;
     }
 };
 
 /*Complexity :- sqrt(n)*/
+
 class Solution
 {
 public: 
