@@ -2,37 +2,56 @@
 
 class Solution
 {
-public:
-    bool isprime(int n)
+  public:
+  
+    bool isPrime(int n)
     {
-        if (n<2)
+        if(n==1)
         {
-            return false;
+            return 0;
         }
-        for(int i=2;i*i<=n;i++)
+        
+        int temp=sqrt(n);
+        
+        for(int i=2;i<=temp;i++)
         {
             if(n%i==0)
             {
-                return false;
+                return 0;
             }
         }
-        return true;
+        return 1;
     }
-    int primeSetBits(int L, int R)
+    
+    int setBitCount(int n)
     {
-        int c=0;
-        for(int i=L;i<=R;i++)
+        int count=0;
+        while(n!=0)
         {
-            int p=__builtin_popcount(i);
-            if(isprime(p))
+            if(n%2)
             {
-                c++; 
+                count++;
+            }
+            n=n/2;
+        }
+        return count;
+    }
+    
+    int primeSetBits(int low, int high)
+    {
+        int ans=0;
+        
+        for(int i=low;i<=high;i++)
+        {
+            int temp = setBitCount(i);
+            if(isPrime(temp))
+            {
+                ans++;
             }
         }
-        return c;
+        return ans;
     }
 };
-
 
 /* Approach 2 */
 
