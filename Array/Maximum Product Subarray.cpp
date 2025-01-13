@@ -3,6 +3,55 @@
 class Solution
 {
 public:
+    int maxProduct(vector<int>& nums)
+    {
+        int numsLength = nums.size();
+        vector<int>preProd(numsLength,0);
+        vector<int>postProd(numsLength,0);
+        int ans = INT_MIN;
+
+        preProd[0] = nums[0];
+
+        for(int i=1;i<nums.size();i++)
+        {
+            if(preProd[i-1]==0)
+            {
+                preProd[i]=nums[i];
+            }
+            else
+            {
+                preProd[i] = preProd[i-1] * nums[i];
+            }
+        }
+
+        postProd[numsLength-1] = nums[numsLength-1];
+        
+        for(int i=numsLength-2;i>=0;i--)
+        {
+            if(postProd[i+1]==0)
+            {
+                postProd[i] = nums[i];
+            }
+            else
+            {
+                postProd[i] = postProd[i+1] * nums[i];
+            }
+        }
+
+        for(int i=0;i<nums.size();i++)
+        {
+           ans = max(ans,max(preProd[i],postProd[i]));
+        }
+
+        return ans;
+    }
+};
+
+/* Approach 2 */
+
+class Solution
+{
+public:
     int maxProduct(vector<int>&nums)
     {
         int ans=nums[0];
@@ -24,7 +73,7 @@ public:
     }
 };
 
-/* Approach 2 */
+/* Approach 3 */
 
 class Solution
 {
@@ -32,24 +81,26 @@ public:
     int maxProduct(vector<int>& nums)
     {
         int ans = INT_MIN;
-        int p = 1;
+        int prod = 1;
+        
         for(int i=0;i<nums.size();i++)
         {
-            p=p*nums[i];
-            ans=max(p,ans);
-            if(p==0)
+            prod=prod*nums[i];
+            ans=max(prod,ans);
+            if(prod==0)
             {
-                p=1;
+                prod=1;
             }
         }
-        p=1;
+        
+        prod=1;
         for(int i=nums.size()-1;i>=0;i--)
         {
-            p=p*nums[i];
-            ans =max(ans,p);
-            if(p==0)
+            prod=prod*nums[i];
+            ans =max(ans,prod);
+            if(prod==0)
             {
-                p=1;
+                prod=1;
             }
         }
         return ans;
