@@ -3,6 +3,31 @@
 class Solution
 {
   public:
+    vector<int> findDuplicates(vector<int>& arr)
+    {
+        unordered_set<int>dupNumCheck;
+        vector<int>vec;
+        
+        for(auto it : arr)
+        {
+            if(dupNumCheck.find(it)==dupNumCheck.end())
+            {
+                dupNumCheck.insert(it);
+            }
+            else
+            {
+                vec.push_back(it);
+            }
+        }
+        return vec;
+    }
+};
+
+/* Approach 2 */
+
+class Solution
+{
+  public:
     vector<int> duplicates(int arr[], int n)
     {
         vector<int>v;
@@ -26,7 +51,7 @@ class Solution
     }
 };
 
-/* Approach 2 :- Without Modifying Array [ Concept :- Cycle Detection In Array ]*/
+/* Approach 3 :- Without Modifying Array [ Concept :- Cycle Detection In Array ] */
 
 class Solution
 {
