@@ -1,22 +1,36 @@
+/* Time :- O(N) and Space :- O(1) */
+
 class Solution
 {
 public:
-    void revFunc(vector<int>& arr, int l, int r)
+    void revArray(vector<int>& nums, int low, int high)
     {
-        while(l<=r)
+        while(low<high)
         {
-            swap(arr[l],arr[r]);
-            l++;
-            r--;
+            swap(nums[low],nums[high]);
+            low++;
+            high--;
         }
     }
-
-    void rotate(vector<int>& arr, int k)
+    void rotate(vector<int>& nums, int k)
     {
-        int n = size(arr);
-        k = k%n;
-        revFunc(arr,n-k,n-1);
-        revFunc(arr,0,n-k-1);
-        revFunc(arr,0,n-1);
-	} 
+        int n= nums.size();
+        
+        if(k>n)
+        {
+            k = k%n;
+        }
+
+        int low = 0;
+        int high = n-k-1;
+        revArray(nums,low,high);
+
+        low = n-k;
+        high = n-1;
+        revArray(nums,low,high);
+        
+        low = 0;
+        high = n-1;
+        revArray(nums,low,high);
+    }
 };
