@@ -1,19 +1,28 @@
+/* Time is O(N) and Space is O(1) */
+
 class Solution
-{   
-public:
-    void segregate0and1(int arr[], int n)
+{
+  public:
+    void segregate0and1(vector<int> &arr)
     {
-        int i=0;
-        int j=0;
+        int low=0;
+        int high=arr.size()-1;
         
-        while(j<n)
+        while(low<high)
         {
-            if(arr[j]==0)
+            if(arr[low]==1 && arr[high]==0)
             {
-                swap(arr[i],arr[j]);
-                i++;
+                swap(arr[low],arr[high]);
             }
-            j++;
+            
+            if(arr[high]==1)
+            {
+                high--;
+            }
+            if(arr[low]==0)
+            {
+                low++;
+            }
         }
     }
 };
