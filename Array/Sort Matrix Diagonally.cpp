@@ -1,4 +1,4 @@
-/* Time :- O(M*N*log(max[m,n])) Space :- O(M*N) */
+/* Time :- O(N∗M∗Log(Min(N,M))) Space :- O(M*N) */
 
 class Solution
 {
