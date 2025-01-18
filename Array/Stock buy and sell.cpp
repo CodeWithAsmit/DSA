@@ -1,19 +1,19 @@
+/* Time :- O(N) and Space :- O(1) */
+
 class Solution
 {
-public:
-    vector<vector<int>>stockBuySell(vector<int> a, int n)
+  public:
+    int stockBuySell(vector<int> &arr)
     {
-       vector<vector<int>> v;
-       int i=0,buy=0,sell=0;
-       for(int i=1;i<n;i++)
-       {
-           if(a[i]>a[i-1])
-           {
-               buy=i-1;
-               sell=i;
-               v.push_back({buy,sell});
-           }
-       }
-       return v;
+        int ans=0;
+        
+        for(int i=1;i<arr.size();i++)
+        {
+            if(arr[i] > arr[i-1])
+            {
+                ans+=(arr[i]-arr[i-1]);
+            }
+        }
+        return ans;
     }
 };
