@@ -1,38 +1,28 @@
+/* Time :- O(NlogN) and Space :- O(N) */
+
 class Solution
 {
 public:
-    bool static comp(string &a,string &b)
+    static bool comparator(int a,int b)
     {
-        string ab = a+b;
-        string ba = b+a;
-        return ab>ba;
+        string ab = to_string(a) + to_string(b);
+        string ba = to_string(b) + to_string(a);
+        return ab > ba;
     }
-
     string largestNumber(vector<int>& nums)
     {
-        string ans="";
-        int count=0;
-        vector<string>temp;
-	    
-        for(auto x : nums)
+        string ans;
+        int count = 0;
+        sort(nums.begin(),nums.end(),comparator);
+
+        for(auto it : nums)
         {
-            if(x==0)
+            if(it==0)
             {
                 count++;
             }
-            temp.push_back(to_string(x));
+            ans+=(to_string(it));
         }
-
-        if(count==nums.size())
-        {
-            return "0";
-        }
-        sort(temp.begin(),temp.end(),comp);
-
-        for(auto x : temp)
-        {
-            ans+=x;
-        }
-        return ans;        
+        return count==nums.size() ? "0" : ans;
     }
 };
