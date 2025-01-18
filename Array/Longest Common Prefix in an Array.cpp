@@ -1,31 +1,31 @@
+/* Time :- O(Nlogn) and Space :- O(L), where L is length of arr[n-1] after sorting */
+
 class Solution
 {
   public:
-    string longestCommonPrefix (string str[], int n)
+    string longestCommonPrefix(vector<string> arr)
     {
-        sort(str,str+n);
-        string s1=str[0];
-        string s2=str[n-1];
-        int i=0;
-        int j=0;
+        sort(arr.begin(),arr.end());
+        
+        int n = arr.size();
+        int minLength = arr[0].size();
+        
         string ans="";
-        while(i<s1.length()&&j<s2.length())
+        string minLengthString=arr[0];
+        string maxLengthString=arr[n-1];
+        
+        for(int i=0;i<minLength;i++)
         {
-            if(s1[i]==s2[j])
+            if(minLengthString[i]==maxLengthString[i])
             {
-                ans=ans+s1[i];
-                i++;
-                j++;
+                ans.push_back(minLengthString[i]);
             }
             else
             {
                 break;
             }
         }
-        if(ans=="")
-        {
-            ans="-1";
-        }
+        
         return ans;
     }
 };
