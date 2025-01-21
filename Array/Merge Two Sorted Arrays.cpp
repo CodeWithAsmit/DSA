@@ -1,4 +1,5 @@
 /* Naive Approach Merge Function */
+
 class Solution
 {
 public:
@@ -37,21 +38,21 @@ public:
     }
 };
 
-/* Efficient Approach */
+/* Efficient Approach Time :- O(N + M) and constant space */
 
 class Solution
 {
 public:
-    void merge(long long arr1[], long long arr2[], int n, int m) 
-    { 
-        int i=n-1;
+    void merge(vector<int>& nums1, int nums1Size, vector<int>& nums2, int nums2Size)
+    {
+        int i=nums1Size-1;
         int j=0;
-        
-        while(i>=0&&j<m)
+
+        while(i>=0 && j<nums2Size)
         {
-            if(arr1[i]>arr2[j])
+            if(nums1[i] > nums2[j])
             {
-                swap(arr1[i],arr2[j]);
+                swap(nums1[i],nums2[j]);
                 i--;
                 j++;
             }
@@ -61,7 +62,15 @@ public:
             }
         }
         
-        sort(arr1,arr1+n);
-        sort(arr2,arr2+m);
-    } 
+        i = nums1Size;
+        j = 0;
+
+        while(i<nums1.size() && j<nums2.size())
+        {
+            nums1[i] = nums2[j];
+            i++;
+            j++;
+        }
+        sort(nums1.begin(),nums1.end());
+    }
 };
