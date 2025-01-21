@@ -26,18 +26,22 @@ public:
 class Solution
 {
 public:
-    int removeDuplicates(vector<int>& arr)
+    int removeDuplicates(vector<int>& nums)
     {
-        int idx=0;
-        int n=arr.size();
-        for(int i=0;i<n;i++)
+        int i=0;
+        int j=1;
+        int ans=1;
+
+        while(i<nums.size() && j < nums.size())
         {
-            if(arr[i]!=arr[idx])
+            if(nums[i]!=nums[j])
             {
-                idx++;
-                arr[idx]=arr[i];
+                i++;
+                nums[i] = nums[j];
+                ans++;
             }
+            j++;
         }
-        return idx+1;
+        return ans;
     }
 };
