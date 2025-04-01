@@ -2,22 +2,31 @@
 
 class Solution
 {
-    public:
-    int firstNonRepeating(int arr[], int n) 
-    { 
-         unordered_map<int,int>mp;
-         int res;
-         for(int i=0;i<n;i++)
-         {
-            mp[arr[i]]++;
-         }
-         for(int i = 0; i < n; i++)
+  public:
+    int firstNonRepeating(vector<int>& arr)
+    {
+        unordered_map<int,int>mapFreq;
+        
+        for(int i=0;i<arr.size();i++)
         {
-            if(mp[arr[i]] == 1)
+            if (mapFreq.find(arr[i])==mapFreq.end())
+            {
+               mapFreq[arr[i]] = 1;
+            }
+            else
+            {
+                mapFreq[arr[i]]++;
+            }
+        }
+        
+        for(int i=0;i<arr.size();i++)
+        {
+            if(mapFreq[arr[i]] == 1)
             {
                 return arr[i];
             }
         }
+        
         return 0;
     }
 };
