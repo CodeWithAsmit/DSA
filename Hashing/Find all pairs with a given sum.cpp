@@ -2,23 +2,25 @@
 
 class Solution
 {
-    public:
-    vector<pair<int,int>> allPairs(int A[], int B[], int N, int M, int X)
+  public:
+    bool twoSum(vector<int>& arr, int target)
     {
-        vector<pair<int,int>>v;
-        unordered_set<int>s;
-        for(int i=0;i<M;i++)
+        unordered_map<int,int>map;
+        
+        for(int i=0;i<arr.size();i++)
         {
-            s.insert(B[i]);
-        }
-        for(int i=0;i<N;i++)
-        {
-            if(s.find(X-A[i])!=s.end())
+            if(arr[i]<target)
             {
-                v.push_back({A[i],X-A[i]});
+                if(map.find(target - arr[i]) != map.end())
+                {
+                    return 1;
+                }
+                else
+                {
+                    map[arr[i]] = i;
+                }
             }
         }
-        sort(v.begin(), v.end());
-        return v;
+        return 0;
     }
 };
