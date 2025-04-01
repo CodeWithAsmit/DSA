@@ -1,41 +1,47 @@
 /* Time :- O(N*K) Space :- O(N) */
 
-bool solve(string txt,string pat)
+void printMap(unordered_map<char,int>&mp)
+{
+    for(auto it : mp)
+    {
+        cout<<it.first<<"  "<<it.second<<"\n";
+    }
+}
+
+bool verifyBothWord(string &word, string &pattern)
 {
     unordered_map<char,char>mp;
-    if(txt.length()!=pat.length())
+    
+    for(int i=0;i<pattern.size();i++)
     {
-        return 0;
-    }
-    else
-    {
-        for(int i=0;i<pat.length();i++) --> O(K)
+        if(mp.find(pattern[i])==mp.end())
         {
-            if(mp.find(pat[i])==mp.end())
+            mp[pattern[i]] = word[i];
+        }
+        else
+        {
+            if(mp[pattern[i]] != word[i])
             {
-                mp[pat[i]]=txt[i];
-            }
-            else
-            {
-                if(mp[pat[i]]!=txt[i])
-                {
-                    return 0;
-                }
+                return 0;
             }
         }
-    }
+    } 
     return 1;
 }
 
-vector<string> findMatchedWords(vector<string> arr,string s)
+vector<string> findMatchedWords(int n, vector<string> dict, string pattern)
 {
-   vector<string>ans;
-   for(int i=0;i<arr.size();i++) --> O(N) 
-   {
-       if(solve(arr[i],s))
-       {
-          ans.push_back(arr[i]);   
-       }
-   }
-   return ans;
+    vector<string>ans;
+    
+    for(auto it : dict)
+    {
+        if(it.length() == pattern.length())
+        {
+            if (verifyBothWord(it,pattern))
+            {
+                ans.push_back(it);
+            }
+        }
+    }
+    return ans;
 }
