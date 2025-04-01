@@ -2,21 +2,26 @@
 
 class Solution
 {
-public:
-	bool hasArrayTwoCandidates(int arr[], int n, int x)
-	{
-	    unordered_set<int>s;
-	    for(int i=0;i<n;i++)
-	    {
-	        if(s.find(x-arr[i])==s.end())
-	        {
-	            s.insert(arr[i]);
-	        }
-	        else
-	        {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
+  public:
+    bool twoSum(vector<int>& arr, int target)
+    {
+        unordered_map<int,int>map;
+        
+        for(int i=0;i<arr.size();i++)
+        {
+            if(arr[i]<target)
+            {
+                if(map.find(target - arr[i]) != map.end())
+                {
+                    return 1;
+                }
+                else
+                {
+                    map[arr[i]] = i;
+                }
+            }
+        }
+        return 0;
+    }
 };
+
