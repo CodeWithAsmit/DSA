@@ -1,19 +1,21 @@
-/* Time :- O((n+m)log(n+m)) Space :- O(n+m) */
+/* Time :-  O(n+m) Space :- O(n+m) */
 
 class Solution
 {
-    public:
-    int doUnion(int a[], int n, int b[], int m) 
+  public:
+    int findUnion(vector<int>& a, vector<int>& b)
     {
-        unordered_set<int>s;
-        for(int i=0;i<n;i++)
+        unordered_set<int>st;
+        
+        for(auto it : a)
         {
-            s.insert(a[i]);
+            st.insert(it);
         }
-        for(int i=0;i<m;i++)
+        for(auto it : b)
         {
-            s.insert(b[i]);
+            st.insert(it);
         }
-        return s.size();
+        
+        return st.size();
     }
 };
