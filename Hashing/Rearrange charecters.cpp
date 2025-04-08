@@ -56,58 +56,72 @@ class Solution
     }
 };
 
-/* Heap Efficient Approach */
+/* Heap Approach, Time :- O(nlogn) and Space :- O(n) */
 
 class Solution
 {
-    public:
-    string rearrangeString(string str)
+public:
+    struct Compare
+    {
+        bool operator()(const pair<int, char>& a, const pair<int, char>& b)
+        {
+            if (a.first == b.first)
+            {
+                return a.second > b.second;  
+            }
+            return a.first < b.first;
+        }
+    };
+    string reorganizeString(string s)
     {
         string ans = "";
-        unordered_map<char,int> mp;
-        priority_queue<pair<int,char> > pq;
-        
-        for(auto x : str)
+        unordered_map<char,int>mp;
+        priority_queue<pair<int, char>, vector<pair<int, char>>, Compare> maxHeap;
+
+        for(auto it : s)
         {
-            mp[x]++;
+            mp[it]++;
         }
-        
-        for(auto x : mp)
+
+        for(auto it : mp)
         {
-            pq.push({x.second,x.first});
+            maxHeap.push({it.second,it.first});
         }
-        
-        while(pq.size()>1)
+
+        while(maxHeap.size()>1)
         {
-            pair<int,char> temp1 = pq.top();
-            pq.pop();
-            pair<int,char> temp2 = pq.top();
-            pq.pop();
+            int count1 = maxHeap.top().first;
+            char Char1 = maxHeap.top().second;
+            maxHeap.pop();
+
+            int count2 = maxHeap.top().first;
+            char Char2 = maxHeap.top().second;
+            maxHeap.pop();
+
+            ans.push_back(Char1);
+            ans.push_back(Char2);
             
-            ans += temp1.second;
-            ans += temp2.second;
-            
-            if(--temp1.first>0)
+            if(count1>1)
             {
-               pq.push(temp1); 
+                maxHeap.push({--count1,Char1});
             }
-            
-            if(--temp2.first>0)
+            if(count2>1)
             {
-               pq.push(temp2); 
+                maxHeap.push({--count2,Char2});
             }
         }
-        if(pq.size())
+
+        if(maxHeap.size())
         {
-            if(pq.top().first == 1)
+            if(maxHeap.size()==1 and maxHeap.top().first ==1)
             {
-                ans += pq.top().second;
+                ans.push_back(maxHeap.top().second);
             }
             else
             {
-                return "-1";
+                return "";
             }
         }
-        return ans;    
+        return ans;
     }
 };
