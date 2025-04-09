@@ -3,43 +3,30 @@ class Solution
 public:
     vector<string> commonChars(vector<string>& words)
     {
-        vector<string> ans;
-        vector<int> v (26,0);
-        
-        for(int i=0;i<words.size();i++)
+        vector<int> minFreq(26, INT_MAX);
+
+        for (auto word : words)
         {
-            vector<int> temp(26,0);
-            for(auto x: words[i])
+            vector<int> freq(26, 0);
+            for (auto ch : word)
             {
-                temp[x-'a']++;
+                freq[ch - 'a']++;
             }
-            if(i==0)
+
+            for (int i = 0; i < 26; i++)
             {
-                for(int i=0;i<26;i++)
-                {
-                    v[i]=temp[i];
-                }
-            }
-            
-            else
-            {
-                for(int i=0;i<26;i++)
-                {
-                    v[i]=min(v[i],temp[i]);
-                }
+                minFreq[i] = min(minFreq[i], freq[i]);
             }
         }
-        
-        for(int i=0;i<26;i++)
+
+        vector<string> result;
+        for (int i = 0; i < 26; i++)
         {
-            while(v[i]--)
+            while (minFreq[i]--)
             {
-                string s;
-                char c='a'+i;
-                s.push_back(c);
-                ans.push_back(s);
+                result.push_back(string(1, 'a' + i));
             }
         }
-        return ans;
+        return result;
     }
 };
