@@ -1,88 +1,51 @@
-/* Time :- O(N) Space :- O(N) */
-
-/* Approach 1 */
+/* Time and Space :- O(N) */
 
 class Solution
 {
-    public:
-    bool isRotated(string str1, string str2)
+public:
+    bool isRotated(string& s1, string& s2)
     {
-        if(str1.length()!=str2.length())
-        {
-            return 0;
-        }
-        string op;
-        int flag1=1;
-        int flag2=1;
-        for(int i=2;i<str1.length();i++)
-        {
-            op+=str1[i];
-        }
-        op+=str1[0];
-        op+=str1[1];
-        for(int i=0;i<str1.length();i++)
-        {
-            if(op[i]!=str2[i])
-            {
-                flag1=0;
-            }
-        }
-        
-        op.clear();
-        
-        op+=str1[str1.length()-2];
-        op+=str1[str1.length()-1];
-        for(int i=0;i<str1.length()-1;i++)
-        {
-            op+=str1[i];
-        }
-        for(int i=0;i<str1.length();i++)
-        {
-            if(op[i]!=str2[i])
-            {
-                flag2=0;
-            }
-        }
-        
-        if(flag1==0&&flag2==0)
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
+        if (s1.length() != s2.length()) return false;
+        if (s1.length() <= 2) return s1 == s2;
+    
+        int n = s1.length();
+    
+        string clockwise = s1.substr(2) + s1.substr(0, 2);
+        string anticlockwise = s1.substr(n - 2) + s1.substr(0, n - 2);
+        return s2 == clockwise || s2 == anticlockwise;
     }
 };
 
-/* Approach 2 */
+/* Time :- O(N) and Space :- O(1) */
 
 class Solution
 {
-    public:
-    bool isRotated(string str1, string str2)
+public:
+    bool isRotated(string& s1, string& s2)
     {
-       int n=str1.length();
-       int m=str2.length();
-       if(m!=n)
-       {
-           return 0;
-       }
+        int n = s1.length();
+        if (n != s2.length()) return false;
+        if (n <= 2) return s1 == s2;
 
-       string s=str1.substr(2,m-2)+str1.substr(0,2);
-       
-       if(s==str2)
-       {
-           return 1;
-       }
-       
-       s=str1.substr(m-2,2)+str1.substr(0,m-2);
-       
-       if(s==str2)
-       {
-           return 1;
-       }
-       
-       return 0;
+        bool clockwise = true;
+        for (int i = 0; i < n; ++i)
+        {
+            if (s1[(i + 2) % n] != s2[i])
+            {
+                clockwise = false;
+                break;
+            }
+        }
+    
+        bool anticlockwise = true;
+        for (int i = 0; i < n; ++i)
+        {
+            if (s1[(i - 2 + n) % n] != s2[i])
+            {
+                anticlockwise = false;
+                break;
+            }
+        }
+        return clockwise || anticlockwise;
     }
 };
