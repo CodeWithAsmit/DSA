@@ -1,38 +1,47 @@
 /* Time :- O(N) Space :- O(K) */
 
-vector<long long> printFirstNegativeInteger(long long int A[],long long int N, long long int K)
+class Solution
 {
-    vector<long long>v;
-    int i=0;
-    int j=0;
-    queue<long long>temp;
-    while(j<N)
+  public:
+    vector<int> firstNegInt(vector<int>& arr, int k)
     {
-       if(A[j]<0)
-       {
-          temp.push(A[j]);
-       }
-       if(j-i+1==K)
-       {
-           if(temp.size()>0)
-           {
-             v.push_back(temp.front());
-             if(A[i]==temp.front())
-             {
-                temp.pop();
-             }
-           }
-           else
-           {
-               v.push_back(0);
-           }
-           i++;
-           j++;
-       }
-       else
-       {
-          j++;   
-       }
+        int i=0;
+        int j=0;
+        
+        queue<int>que;
+        vector<int>ans;
+        
+        while(j<arr.size())
+        {
+            if(arr[j]<0)
+            {
+                que.push(arr[j]);
+            }
+            
+            if(j-i+1 == k)
+            {
+                if(que.size())
+                {
+                    ans.push_back(que.front());
+                }
+                else
+                {
+                    ans.push_back(0);
+                }
+                
+                if(!que.empty() && arr[i] == que.front())
+                {
+                    que.pop();
+                }
+                
+                i++;
+                j++;
+            }
+            else
+            {
+                j++;
+            }
+        }
+        return ans;
     }
-    return v;
-}
+};
