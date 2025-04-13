@@ -2,54 +2,56 @@
 
 class Solution
 {
-    public:
-    vector<int> subarraySum(int arr[], int N, long long k)
+  public:
+    vector<int> subarraySum(vector<int> &arr, int target)
     {
-         
-         int i=0;
-         int j=0;
-         int sum=0;
-         vector<int>v; /* OF fixed size of 2 that is why constant space */
-         
-         while(j<N)
-         {
-             sum=sum+arr[j];
-             if(sum<k)
-             {
-                 j++;
-             }
- 
-             if(sum==k)
-             {
-                 v.push_back(i+1);
-                 v.push_back(j+1);
-                 break;
-             }
- 
-             if(sum>k)
-             {
-                 while(sum>k)
-                 {
-                     sum=sum-arr[i];
-                     i++;
-                 }
-                 if(sum==k)
-                 {
-                     v.push_back(i+1);
-                     v.push_back(j+1);
-                     break;
-                 }
-                 j++;
-             }
-         }
-         if(v.size()==0)
-         {
-             v.push_back(-1);
-             return v;
-         }
-         else
-         {
-             return v;    
-         }
+        int i=0;
+        int j=0;
+        int sum = 0;
+        
+        vector<int>ans;
+        
+        while(j<arr.size())
+        {
+            sum = sum  + arr[j];
+            
+            if(sum == target)
+            {
+                ans.push_back(i+1);
+                ans.push_back(j+1);
+                break;
+            }
+            else if(sum > target)
+            {
+                while(sum > target)
+                {
+                   sum = sum - arr[i];
+                   i++;
+                }
+                if(sum == target)
+                {
+                    ans.push_back(i+1);
+                    ans.push_back(j+1);
+                    break;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            else
+            {
+                j++;
+            }
+        }
+        
+        if(ans.size() == 0)
+        {
+            ans.push_back(-1);
+        }
+        else
+        {
+            return ans;
+        }
     }
 };
