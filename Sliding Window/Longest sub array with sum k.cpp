@@ -2,33 +2,32 @@
 
 class Solution
 {
-    public:
-    int lenOfLongSubarr(int A[],  int n, int k) 
-    { 
-        int sum=0;
-        int ans=0;
+  public:
+    int longestSubarray(vector<int>& nums, int k)
+    {
         int j=0;
-        unordered_map<int,int> mp;
-        mp[0]=0;
+        int sum = 0;
+        int ans = INT_MIN;
+        unordered_map<int,int>mp;
         
-        while(j<n)
+        mp[0] = 0;
+        
+        while(j < nums.size())
         {
-            sum=sum+A[j];
-            if(mp.find(sum-k)!=mp.end())  
-            {
-                ans=max(ans,j-mp[sum-k]+1);
-            }
-            
-            /* If sum got then size of subarray is current index - index of last element of previous subarray */
+            sum  = sum + nums[j];
             
             if(mp.find(sum)==mp.end())
             {
-                 mp[sum]=j+1;
+                mp[sum] = j + 1;
+            }
+        
+            if(mp.find(sum - k) != mp.end())
+            {
+                ans = max(ans, j - mp[sum-k] + 1);
             }
             j++;
-            
-            /* If not then store sum as key and in pair position of last element of that subarray */
         }
-        return ans;
-    } 
+        
+        return ans == INT_MIN ? 0 : ans;
+    }
 };
