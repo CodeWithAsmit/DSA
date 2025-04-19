@@ -3,37 +3,32 @@
 class Solution
 {
 public:
-    int minSubArrayLen(int k, vector<int>& arr)
+    int minSubArrayLen(int target, vector<int>& nums)
     {
-         int ans=INT_MAX;
-         int i=0;
-         int j=0;
-         int sum=0;
-         int N=arr.size();
-        
-         while(j<N)
-         {
-             sum=sum+arr[j];
-             if(sum<k)
-             {
-                 j++;
-             }
-             
-             else if(sum>=k)
-             {
-                 while(sum>=k)
-                 {
-                     ans=min(ans,j-i+1);
-                     sum=sum-arr[i];
-                     i++;
-                 }
-                 j++;
-             }
-         }
-        if (ans == INT_MAX || ans < 0)
+        int i=0;
+        int j=0;
+        int sum = 0;
+        int ans = INT_MAX;
+
+        while(j < nums.size())
         {
-            return 0;
+            sum  = sum + nums[j];
+
+            if(sum >= target)
+            {    
+                while(sum >= target)
+                {
+                    sum = sum - nums[i];
+                    ans = min(ans,j-i+1);
+                    i++;
+                }
+                j++;
+            }
+            else
+            {
+                j++;
+            }
         }
-        return ans;
+        return ans == INT_MAX ? 0 : ans;    
     }
 };
