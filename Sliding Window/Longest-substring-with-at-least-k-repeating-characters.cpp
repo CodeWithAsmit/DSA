@@ -1,4 +1,4 @@
-/* Approach 1 :- Recursion */
+/* Approach 1 :- Recursion :-  O(N*N) and O(N*N) */
 
 class Solution
 {
@@ -37,7 +37,45 @@ public:
     }
 };
 
-/* Approach 2 :- Sliding Window */
+/* Approach 2 :- Optimised Brute Force :- O(N*N) and O(1) */
+
+class Solution
+{
+public:
+    int longestSubstring(string s, int k)
+    {
+        int ans = 0;
+        int n = s.length();
+
+        for (int i = 0; i < n; ++i)
+        {
+            int distinct = 0;     
+            int countAtLeastK = 0;
+            unordered_map<char, int> freq;
+
+            for (int j = i; j < n; ++j)
+            {
+                freq[s[j]]++;
+                
+                if (freq[s[j]] == 1)
+                {
+                    distinct++;
+                }
+                if (freq[s[j]] == k)
+                {
+                    countAtLeastK++;
+                }
+                if (distinct == countAtLeastK)
+                {
+                    ans = max(ans, j - i + 1);
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+/* Approach 3 :- Sliding Window :-  O(N) and O(1) */
 
 class Solution
 {
