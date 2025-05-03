@@ -3,37 +3,42 @@
 class Solution
 {
   public:
-    int longestKSubstr(string arr, int k)
+    int longestKSubstr(string &s, int k)
     {
-        int i=0;
-        int j=0;
-        int ans=INT_MIN;
-        unordered_map<int,int>mp;
+        int i = 0;
+        int j = 0;
+        int ans = INT_MIN;
+        unordered_map<char,int>charTrack;
         
-        while(j<arr.length())
+        while(j<s.length())
         {
-            mp[arr[j]]++;
+            charTrack[s[j]]++;
             
-            if(mp.size()==k)
+            if(charTrack.size() == k)
             {
-                int window=j-i+1;
-                ans=max(ans,window);
+                ans = max(ans,j-i+1);
             }
-            
-            if(mp.size()>k)
+            else if(charTrack.size() > k)
             {
-                while(mp.size()>k)
+                while(charTrack.size() > k)
                 {
-                    mp[arr[i]]--;
-                    if(mp[arr[i]]==0)
+                    if(charTrack.find(s[i]) != charTrack.end())
                     {
-                        mp.erase(arr[i]);
+                        charTrack[s[i]]--;
+                        if(charTrack[s[i]] == 0)
+                        {
+                            charTrack.erase(s[i]);
+                        }
                     }
                     i++;
+                }
+                if(charTrack.size() == k)
+                {
+                    ans = max(ans,j-i+1);
                 }
             }
             j++;
         }
-        return ans==INT_MIN?-1:ans;
+        return ans == INT_MIN ? -1 : ans;
     }
 };
