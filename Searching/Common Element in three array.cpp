@@ -34,23 +34,25 @@ class Solution
         }
 };
 
-/*Approach 2 (Binary Search) --> Time :- suppose min of n1,n2,n3 is n1 -->  O[N1*log(N2*N3)] Space :- O(1) */
+/* Approach 2 (Binary Search) --> Time :- Suppose MIN of N1, N2, N3 is N1 --> O[N1*log(N2*N3)] and Space :- O(1) */
 
 class Solution
 {
-   public:    
-   int bSearch(int target,int n,int arr[])
+  public:
+    int search(vector<int>& nums, int target)
     {
-        int low=0;
-        int high=n;
+        int low = 0;
+        int high = nums.size()-1;
+
         while(low<=high)
         {
-            int  mid=low+(high-low)/2;
-            if(arr[mid]==target)
+            int mid = high + (low-high)/2;
+
+            if(nums[mid]==target)
             {
                 return 1;
             }
-            else if(arr[mid]>target)
+            else if(nums[mid]>target)
             {
                 high=mid-1;
             }
@@ -61,37 +63,88 @@ class Solution
         }
         return 0;
     }
-    vector <int> commonElements (int A[], int B[], int C[], int n1, int n2, int n3)
+    
+    vector<int> solve(vector<int> &arr1, vector<int> &arr2, vector<int> &arr3)
     {
-        vector<int>ans;
+        vector<int> ans;
         
-        if(n2<n1&&n1<n3)
+        for (auto it : arr1)
         {
-           return commonElements(B,A,C,n2,n1,n3);
-        }
-        else if(n3<n2&&n2<n1)
-        {
-           return commonElements(C,A,B,n3,n1,n2);
-        }
-        else
-        {
-            for(int i=0;i<n1;i++)
+            bool search1 = search(arr2, it);
+            bool search2 = search(arr3, it);
+            
+            if (search1 && search2)
             {
-                if (i != 0 && A[i] == A[i - 1])
+                if (ans.empty() || ans.back() != it)
                 {
-                    continue;
-                }
-                int flag1=bSearch(A[i],n2,B);
-                int flag2=bSearch(A[i],n3,C);
-                if(flag1&&flag2)
-                {
-                    ans.push_back(A[i]);
+                    ans.push_back(it);
                 }
             }
         }
-        if(ans.size()==0)
+        return ans;
+    }
+    
+    vector<int> commonElements(vector<int> &arr1, vector<int> &arr2,vector<int> &arr3)
+    {
+        if (arr1.size() <= arr2.size() && arr1.size() <= arr3.size())
         {
-            ans.push_back(-1);
+            return solve(arr1, arr2, arr3);
+        }
+        else if (arr2.size() <= arr1.size() && arr2.size() <= arr3.size())
+        {
+            return solve(arr2, arr1, arr3);
+        }
+        else
+        {
+            return solve(arr3, arr1, arr2);
+        }
+    }
+};
+
+/* Approach 3 (2 Pointer Approach) --> Time :- O(N1 + N2 + N3) and Space :- O(1) --> Most Optimal Approach */
+
+class Solution
+{
+public:
+    vector<int> commonElements(vector<int>& arr1, vector<int>& arr2, vector<int>& arr3)
+    {
+        int i = 0, j = 0, k = 0;
+        vector<int> ans;
+
+        while (i < arr1.size() && j < arr2.size() && k < arr3.size())
+        {
+            if (arr1[i] == arr2[j] && arr2[j] == arr3[k])
+            {
+                if (ans.empty() || ans.back() != arr1[i])
+                {
+                    ans.push_back(arr1[i]);
+                }
+
+                i++;
+                j++;
+                k++;
+            }
+            else
+            {
+                int minVal = min({arr1[i], arr2[j], arr3[k]});
+                if (arr1[i] == minVal)
+                {
+                    i++;
+                }
+                if (arr2[j] == minVal)
+                {
+                    j++;
+                }
+                if (arr3[k] == minVal)
+                {
+                    k++;
+                }
+            }
+        }
+
+        if (ans.empty())
+        {
+            return {-1};
         }
         return ans;
     }
