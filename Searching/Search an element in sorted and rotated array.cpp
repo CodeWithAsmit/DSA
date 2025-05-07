@@ -5,11 +5,11 @@
 class Solution
 {
 public:
-    int bSearch(vector<int>nums,int target,int low,int high)
-    {
+    int bSearch(int low,int high,vector<int>& nums, int target)
+    {  
         while(low<=high)
         {
-            int mid=low+(high-low)/2;
+            int mid = high + (low - high)/2;
             if(nums[mid]==target)
             {
                 return mid;
@@ -25,49 +25,59 @@ public:
         }
         return -1;
     }
-    
-    int findMin(vector<int>arr, int n)
+    int findMin(vector<int>& nums)
     {
         int low=0;
-        int high=n-1;
-        int mid;
-        
-        while(low<high)
+        int high = nums.size()-1;
+
+        while(low<=high)
         {
-            mid=low+(high-low)/2;
-            if(arr[mid]>arr[high])
+            int mid = high + (low - high)/2;
+            
+            bool leftOk = (mid == 0) || (nums[mid] < nums[mid - 1]);
+            bool rightOk = (mid == nums.size() - 1) || (nums[mid] < nums[mid + 1]);
+            
+            if(leftOk && rightOk)
             {
-                low=mid+1;
+                return mid;
+            }
+            else if(nums[mid] > nums[high])
+            {
+                low = mid+1;
             }
             else
             {
-                high=mid;
+                high = mid-1;
             }
         }
-        return low;
+        return -1;    
     }
-    
     int search(vector<int>& nums, int target)
     {
-        if(nums.size()==1)
-        {
-            return nums[0]==target?0:-1;
-        }
+        int ans=-1;
+        int n = nums.size()-1;
         
-        int min=findMin(nums,nums.size());
-        if(nums[min]==target)
+        if(nums[n] > nums[0])
         {
-            return min;
+            return bSearch(0,n,nums,target);
         }
-        
-        int idx1=bSearch(nums,target,0,min-1);
-        int idx2=bSearch(nums,target,min+1,nums.size()-1);
-        
-        if(idx1==-1&&idx2==-1)
+
+        int index = findMin(nums);
+
+        if(nums[index]==target)
         {
-            return -1;
+            return index;
         }
-        return idx1==-1?idx2:idx1;
+
+        if(target >= nums[0])
+        {
+            ans = bSearch(0,index-1,nums,target);
+        }
+        else
+        {
+            ans = bSearch(index+1,n,nums,target);
+        }
+        return ans;
     }
 };
 
