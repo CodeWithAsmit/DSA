@@ -2,36 +2,38 @@
 
 class Solution
 {
-  public:
-    long long int floorSqrt(long long int x) 
+public:
+    int mySqrt(int x)
     {
-        if(x==1)
+        if(x==0)
+        {   
+            return 0;
+        }
+        if(x<=3)
         {
             return 1;
         }
-        long long int low=0;
-        long long int high=x/2;
-        long long int ans;
-        
+
+        long long int low = 1;
+        long long int high= x/2;
+
         while(low<=high)
         {
-            long long int mid=low+(high-low)/2;
-            long long int temp=mid*mid;
-            
-            if(temp==x)
+            long long int mid = high + (low-high)/2;
+
+            if(mid*mid==x)
             {
                 return mid;
             }
-            else if(temp>x)
+            else if(mid*mid > x)
             {
-                 high=mid-1;
+                high = mid-1;
             }
             else
             {
-                ans=mid;
-                low=mid+1;
+                low = mid+1;
             }
         }
-        return ans;
+        return high;    
     }
 };
