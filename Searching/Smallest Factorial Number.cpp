@@ -1,40 +1,42 @@
 /* Time :- O(log N [Base 2] * log N [Base 5]) Space :- O(1) */
+
 class Solution
 {
     public:
-    int solve(int n)
+    int solve(int number)
     {
-        int i=1;
-        int quotient=1;
-        int ans=0;
+        int ans = 0;
+        int powFive = 5;
+        int temp = 1;
         
-        while(quotient>0)
+        while(temp > 0)
         {
-            quotient = n/pow(5,i);
-            ans = ans + quotient;
-            i++;
+            temp = (number / powFive);
+            ans = ans + temp;
+            powFive = powFive * 5;
         }
-        return ans; 
+        return ans;
     }
     
     int findNum(int n)
     {
-        int low=1;
-        int high=5*n;
-        int ans=-1;
+        int low = 1;
+        int high = INT_MAX;
+        int ans = INT_MAX;
         
         while(low<=high)
         {
-            int mid=low+(high-low)/2;
-            int temp=solve(mid);
-            if(temp>=n)
+            int mid = high + (low-high) / 2;
+            int zeroCount = solve(mid);
+            
+            if(zeroCount >= n)
             {
-                ans=mid;
-                high=mid-1;
+                ans = min(ans,mid);
+                high = mid-1;
             }
             else
             {
-                low=mid+1;
+                low = mid + 1;
             }
         }
         return ans;
