@@ -17,54 +17,55 @@ int kthSmallest(int mat[MAX][MAX], int n, int k)
        return pq.top();
 }
 
-/* Approach 2 Time :- O(N*logn) Space :- O(1) */
+/* Approach 2 Time :- O(N * log(max_val - min_val)) Space :- O(1) */
 
 class Solution
 {
-public: 
-    int solve(int val,vector<vector<int>>& mat)
+    public:
+    int solve(int row,int col,vector<vector<int>>& matrix, int val) /* This is O(N) */
     {
-        int n=mat.size();
-        int low=0;
-        int high=n-1;
-        int ans=0;
-        
-        while(low<n&&high>=0)
+        int low = 0;
+        int high = col-1;
+        int ans = 0;
+
+        while(low<col && high >= 0)
         {
-            if(mat[low][high]>val)
+            if(matrix[low][high] > val)
             {
                 high--;
             }
             else
             {
                 low++;
-                ans=ans+(high+1);
+                ans = ans + high + 1;
             }
         }
         return ans;
     }
-    
-    int kthSmallest(vector<vector<int>>& mat, int k)
+
+    int kthSmallest(vector<vector<int>>& matrix, int k)
     {
-        int n=mat.size();
-        int low=mat[0][0];
-        int high=mat[n-1][n-1];
-        int res=0;
-        
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int low = matrix[0][0];
+        int high = matrix[row-1][col-1];
+        int ans = -1;
+
         while(low<=high)
         {
-            int mid=low+(high-low)/2;
-            int ans=solve(mid,mat);
-            if(ans<k)
+            int mid = low + (high-low)/2;
+            int smallElementCount = solve(row,col,matrix,mid);
+
+            if(smallElementCount < k)
             {
-                low=mid+1;
+                low = mid + 1;
             }
             else
             {
-                res=mid;
-                high=mid-1;
+                ans = mid;
+                high = mid - 1;
             }
         }
-        return res;
+        return ans;    
     }
 };
