@@ -4,44 +4,28 @@
 
 class Solution
 {
-  public:
-    int majorityElement(int arr[], int n)
+public:
+    int majorityElement(vector<int>& nums)
     {
-       int candidate=arr[0];  
-       int count=1;
-       
-       for(int i=1;i<n;i++)
-       {
-           if(candidate==arr[i])
-           {
-               count++;
-           }
-           else
-           {
-               count--;
-               if(count==0)
-               {
-                   count=1;
-                   candidate=arr[i];
-               }
-           }
-       }
-       count=0;
-       
-       for(int i=0;i<n;i++)
-       {
-           if(candidate==arr[i])
-           {
-               count++;
-           }
-       }
-       if(count>n/2)
-       {
-           return candidate;
-       }
-       else
-       {
-           return -1;
-       }
+        int count=0;
+        int majorityElement=0;
+
+        for(int i=0;i<nums.size();i++)
+        {
+            if(count==0)
+            {
+                count++;
+                majorityElement = nums[i];
+            }
+            else if(nums[i]==majorityElement)
+            {
+                count++;
+            }
+            else
+            {
+                count--;
+            }
+        }
+        return majorityElement;
     }
 };
