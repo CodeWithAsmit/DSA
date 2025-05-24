@@ -5,59 +5,63 @@ class Solution
 public:
     vector<int> majorityElement(vector<int>& nums)
     {
-        int ans1,ans2;
         int count1=0;
         int count2=0;
-        
-        for(int i=0;i<nums.size();i++)
+        int n = nums.size();
+        int firstMajorityElement=0;
+        int secondMajorityElement=0;
+
+        for(int i=0;i<n;i++)
         {
-            if(nums[i]==ans1)
+            if(nums[i] == firstMajorityElement)
             {
                 count1++;
             }
-            else if(nums[i]==ans2)
+            else if (nums[i] == secondMajorityElement)
             {
                 count2++;
             }
             else if(count1==0)
             {
                 count1=1;
-                ans1=nums[i];
+                firstMajorityElement = nums[i];
             }
-            else if(count2==0)
+            else if (count2==0)
             {
-                 count2=1;
-                 ans2=nums[i];
-            }
+                count2=1;
+                secondMajorityElement =  nums[i];
+            } 
             else
             {
                 count1--;
                 count2--;
             }
         }
-        vector<int>v;
-        int temp1=ceil(nums.size()/3)+1;
-        int temp2=ceil(nums.size()/3)+1;
-        for(int i=0;i<nums.size();i++)
-        {
-            if(nums[i]==ans1)
-            {
-                temp1--;
-            }
-            if(nums[i]==ans2)
-            {
-                temp2--;
-            }
-        }
-        if(temp1<=0)
-        {
-            v.push_back(ans1);
-        }
-        if(temp2<=0)
-        {
-            v.push_back(ans2);
-        }
+
+        vector<int>ans;
+        int firstVerifyCount = 0;
+        int secondVerifyCount = 0;
         
-        return v;
-    }
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==firstMajorityElement)
+            {
+                firstVerifyCount++;
+            }
+            else if(nums[i]==secondMajorityElement)
+            {
+                secondVerifyCount++;
+            }
+        }
+
+        if(firstVerifyCount > (n/3))
+        {
+            ans.push_back(firstMajorityElement);
+        }
+        if(secondVerifyCount > (n/3))
+        {
+            ans.push_back(secondMajorityElement);
+        }
+        return ans;
+    }    
 };
