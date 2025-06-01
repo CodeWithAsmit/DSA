@@ -3,41 +3,44 @@
 class Solution
 {
 public:
-   bool solve(int mid, int hour, vector<int> &arr)
-   {
-        long long int count=0;
-        for(int i=0;i<arr.size();i++)
-        {
-            int quo=arr[i]/mid;
-            int remain=arr[i]%mid;
-            count=count+quo;
-            if(remain!=0)
-            {
-                count++;
-            }
-        }
-        return hour>=count?1:0;
-  }
-    
-    int minEatingSpeed(vector<int>& arr, int hour)
+    int solve(int limit, vector<int>& piles)
     {
-        int low = 1;
-        int high = *max_element(arr.begin(),arr.end());
-        int ans = -1;
-        
-        while(low <= high)
+        int hoursRequired = 0;
+
+        for(int i=0;i<piles.size();i++)
         {
-            int mid = low + (high - low)/2;
-            if(solve(mid,hour,arr))
+            if(piles[i] > limit)
             {
-                ans = mid;
-                high = mid - 1;
+                hoursRequired = hoursRequired + ceil(piles[i] / (double)limit);
             }
             else
             {
-                low = mid + 1;
+                hoursRequired++;
             }
         }
-        return ans;
+        return hoursRequired;
+    }
+    int minEatingSpeed(vector<int>& piles, int h)
+    {
+        int low = 1;
+        int high = INT_MAX;
+        int ans = INT_MAX;
+
+        while(low<=high)
+        {
+            int mid = low + (high - low) / 2;
+            int hoursRequired = solve(mid,piles);
+
+            if(hoursRequired>h)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                ans = min(ans,mid);
+                high = mid -1;
+            }
+        }
+        return ans;  
     }
 };
