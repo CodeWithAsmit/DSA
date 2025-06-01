@@ -3,62 +3,52 @@
 class Solution
 {
 public:
-    bool isValid(vector<int>arr,int m,int k,int mid)
+    int solve(int day,vector<int>& bloomDay, int k)
     {
-        int count=0;
-        int ans=0;
-        for(int i=0;i<arr.size();i++)
+        int flowerCount = 0;
+        int bouquetCount = 0;
+
+        for(int i=0;i<bloomDay.size();i++)
         {
-            if(mid>=arr[i])
+            if(day >= bloomDay[i])
             {
-                count++;
+                flowerCount++;
             }
             else
             {
-                count=0;
+                flowerCount = 0;
             }
-            if(count==k)
+
+            if(flowerCount==k)
             {
-                ans++;
-                count=0;
+                bouquetCount++;
+                flowerCount = 0;
             }
         }
-        return ans>=m?1:0;
+        return bouquetCount;
     }
-    int minDays(vector<int>& arr, int m, int k)
+    int minDays(vector<int>& bloomDay, int m, int k)
     {
-        if((m*k)>arr.size())
-        {
-            return -1;
-        }
-        int low=INT_MAX;
-        int high=INT_MIN;
-        int ans=INT_MAX;
-        
-        for(int i=0;i<arr.size();i++)
-        {
-            if(arr[i]<low)
-            {
-                low=arr[i];
-            }
-            if(arr[i]>high)
-            {
-                high=arr[i];
-            }
-        }
+        int ans = INT_MAX;
+        int bouquetCount = 0;
+        int low = *min_element(bloomDay.begin(), bloomDay.end());
+        int high = *max_element(bloomDay.begin(), bloomDay.end());
+
         while(low<=high)
         {
-            int mid=low+(high-low)/2;
-            if(isValid(arr,m,k,mid))
+            int mid = low + (high - low) / 2;
+            int bouquetCount = solve(mid,bloomDay,k);
+
+            if(bouquetCount>=m)
             {
-                ans=min(ans,mid);
-                high=mid-1;
+                ans = min(ans,mid);
+                high = mid-1;
             }
             else
             {
-                low=mid+1;
+                low = mid +1;
             }
         }
-        return ans==INT_MAX?-1:ans;
+        return ans == INT_MAX ? -1 : ans;
     }
 };
