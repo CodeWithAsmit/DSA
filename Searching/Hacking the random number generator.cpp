@@ -1,3 +1,42 @@
+/* Time :- O(N) and Space :- O(N) */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int countPairsWithDiffK(const vector<int>& nums, int k)
+{
+    unordered_map<int, int> map;
+    int count = 0;
+
+    for (int num : nums)
+    {
+        if (map.count(num - k))
+        {
+        	count += map[num - k];
+        }
+        if (map.count(num + k))
+        {
+        	count += map[num + k];
+        }
+        map[num]++;
+    }
+    return count;
+}
+
+int main()
+{
+    int n, k;
+    cin >> n >> k;
+    vector<int> nums(n);
+      
+    for (int i = 0; i < n; ++i)
+    {
+        cin >> nums[i];
+    } 
+    cout << countPairsWithDiffK(nums, k) << endl;
+    return 0;
+}
+
 /* Time :- O(Nlogn) Space :- O(1) */
 
 #include<bits/stdc++.h>
