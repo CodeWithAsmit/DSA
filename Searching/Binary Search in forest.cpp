@@ -3,41 +3,55 @@
 class Solution
 {
     public:
-    int solve(int h,int arr[],int n)
+    int findMaximum(int n,int tree[])
     {
-    	int sum=0;
-    	for(int i=0;i<n;i++)
-    	{
-    	    if(arr[i]>h)
-    	    {
-    		   sum=sum+(arr[i]-h);
-    	    }
-    	}
-    	return sum;
+        int maxValue = INT_MIN;
+        for(int i=0;i<n;i++)
+        {
+            maxValue = max(maxValue,tree[i]);
+        }
+        return maxValue;
     }
 
-    int find_height(int arr[], int n, int m)
+    int solve(int height, int n, int tree[])
     {
-        int low=0;
-    	int high=*max_element(arr,arr+n);
-     
-    	while(low<=high)
-    	{
-    	     int mid=low+(high-low)/2;
-    	     int temp=solve(mid,arr,n);
-    	     if(temp==m)
-    	     {
-    		    return mid;
-    	     }
-    	     else if(temp>m)
-    	     {
-    		    low=mid+1;
-    	     }
-    	     else
-    	     {
-    		    high=mid-1;
-    	     }
-    	}
-        return -1;
-     }
+        int woodCollect = 0;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(tree[i] > height)
+            {
+                woodCollect = woodCollect + (tree[i] - height);
+            }
+        }
+        return woodCollect;
+    }
+    
+    int find_height(int tree[], int n, int k)
+    {
+        int low = 0;
+        int high = findMaximum(n,tree);
+        int ans = -1;
+        
+        while(low<=high)
+        {
+            int mid = low + (high - low) / 2;
+            int woodGet = solve(mid,n,tree);
+            
+            if(woodGet == k)
+            {
+                ans = mid;
+                break;
+            }
+            else if(woodGet > k)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
 };
