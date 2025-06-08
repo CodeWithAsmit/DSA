@@ -5,42 +5,43 @@
 class Solution
 {
 public:
-    bool solve(int dist,vector<int>arr,int n,int cow)
+    bool solve(int distance, vector<int>& stalls, int cows)
     {
-        int count=1;
-        int lastPlaced=arr[0];
-        for(int i=1;i<n;i++)
+        int keptCows = 1;
+        int lastKeptPosition = stalls[0];
+
+        for(int i=1;i<stalls.size();i++)
         {
-            if(abs(arr[i]-lastPlaced)>=dist)
+            if(abs(stalls[i] - lastKeptPosition) >= distance)
             {
-                count++;
-                lastPlaced=arr[i];
+                keptCows++;
+                lastKeptPosition = stalls[i];
             }
         }
-        return count>=cow?1:0;
+        return keptCows >= cows;
     }
-    
-    int maxDistance(vector<int>& arr, int cow)
+    int maxDistance(vector<int>& stalls, int cows)
     {
-        int n=arr.size();
-        int ans=INT_MIN;
-        sort(arr.begin(),arr.end());
-        
-	int low=1;
-	int high=arr[n-1]-arr[0];
-	while(low<=high)
-	{
-	   int mid=low+(high-low)/2;
-	   if(solve(mid,arr,n,c))
-	   {
-	      ans=max(ans,mid);
-	      low=mid+1;
-	   }
-	   else
-	   {
-	      high=mid-1;
-	   }
-	}
-       return ans;
+        sort(stalls.begin(),stalls.end());
+
+        int low = 1;
+        int high = stalls[stalls.size()-1] - stalls[0];
+        int requiredDistance = INT_MIN;
+
+        while(low<=high)
+        {
+            int mid = low + (high - low) / 2;
+
+            if(solve(mid, stalls, cows))
+            {
+                requiredDistance = max(requiredDistance,mid);
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+        return requiredDistance;
     }
 };
