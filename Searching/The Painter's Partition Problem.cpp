@@ -1,58 +1,55 @@
 /* Time :- O(Nlogm) Space :- O(1) */
 
-class Solution
+int findSum(vector<int>& boards)
 {
-   public:
-   int isvalid(int arr[],int n,int painterAvailable,int maximumArea)
+    int sum = 0;
+    for(int length : boards)
     {
-        int reqPainter=1;
-        long long currArea=0;
-        
-        for(int i=0;i<n;i++)
-        {
-            currArea=currArea+arr[i];
-            if(currArea>maximumArea)
-            {
-                reqPainter++;
-                currArea=arr[i];
-            }
-            if(reqPainter>painterAvailable)
-            {
-               return 0;
-            }
-        }
-        return 1;
+        sum += length;
     }
-    
-    long long minTime(int arr[], int n, int k)
+    return sum;
+}
+bool isValidPartition(vector<int>& boards, int k, int maxLength)
+{
+    int painters = 1;
+    int currentSum = 0;
+
+    for (int length : boards)
     {
-        if(k>n)
+        if (length > maxLength)
         {
-           return *max_element(arr,arr+n);
+            return false;
         }
-        
-        long long r=0;
-        for(int i=0;i<n;i++)
+        if (currentSum + length <= maxLength)
         {
-            r=r+arr[i];
+            currentSum += length;
         }
-        
-        long long res=-1;
-        long long l=*max_element(arr,arr+n);
-        
-        while(l<=r)
+        else
         {
-            int mid=l+((r-l)/2);
-            if(isvalid(arr,n,k,mid))
-            {
-                res=mid;
-                r=mid-1; 
-            }
-            else
-            {
-                l=mid+1;
-            }
+            painters++;
+            currentSum = length;
         }
-        return res;
     }
-};
+    return painters <= k;
+}
+int painter_partition(vector<int>& boards, int k)
+{
+    int low = *max_element(boards.begin(), boards.end());
+    int high = findSum(boards);
+    int result = high;
+
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        if (isValidPartition(boards, k, mid))
+        {
+            result = mid;
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+    return result;
+}
