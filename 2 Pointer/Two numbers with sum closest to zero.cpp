@@ -3,37 +3,36 @@
 class Solution
 {
     public:
-        int closestToZero(int arr[], int n)
+    int closestToZero(int nums[], int n)
+    {
+        sort(nums, nums + n);
+
+        int low = 0;
+        int high = n-1;
+        int ans = INT_MAX;
+
+        while (low < high)
         {
-            sort(arr,arr+n);
-            int ans=INT_MAX;
-            int res=-1;
-            int l=0,r=n-1;
-            while(l<r)
+            int sum = nums[low] + nums[high];
+            
+            if (abs(ans) > abs(sum) || (abs(ans) == abs(sum) && sum > ans))
             {
-                int diff=arr[l]+arr[r];
-                if(diff==0)
-                {
-                    return 0;
-                }
-                else if(diff<0)
-                {
-                    l++;
-                }
-                else
-                {
-                    r--;
-                }
-                if(abs(diff)<ans)
-                {
-                    ans=abs(diff);
-                    res=diff;
-                }
-                else if(abs(diff)==ans)
-                {
-                    res=max(res,diff);
-                }
+                ans = sum;
             }
-            return res;
+
+            if (sum == 0)
+            {
+                return 0;
+            }
+            else if (sum > 0)  /* Move Close To Zero So Need Less Value of Sum */
+            {
+                high--;
+            }
+            else               /* Move Close To Zero So Need More Value of Sum */
+            {
+                low++;
+            }
         }
+        return ans;
+    }
 };
