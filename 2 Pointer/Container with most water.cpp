@@ -3,25 +3,26 @@
 class Solution
 {
 public:
-    int maxArea(vector<int>& arr)
+    int maxArea(vector<int>& height)
     {
-        int l=0;
-        int r=arr.size()-1;
-        int area=0;
-        
-        while(l<r)
+        int low = 0;
+        int high = height.size()-1;
+        int ans = INT_MIN;
+
+        while(low<high)
         {
-            if(arr[l]<=arr[r])
+            int waterCollected = (high-low) * min(height[low],height[high]);
+            ans = max(ans,waterCollected);
+
+            if(height[low] > height[high])
             {
-                area=max(area,(r-l)*arr[l]);
-                l++;
+                high--;
             }
             else
             {
-                area=max(area,(r-l)*arr[r]);
-                r--;
+                low++;
             }
         }
-        return area;
+        return ans;
     }
 };
