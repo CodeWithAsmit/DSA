@@ -2,28 +2,30 @@
 
 class Solution
 {
-	public:
-	long long countTriplets(long long arr[], int n, long long x)
-	{
-	     sort(arr,arr+n);
-	     long long count=0;
-	     for(long i=0;i<n-1;i++)
-	     {
-    	         long long l=i+1;
-    	         long long r=n-1;
-    	         while(l<r)
-    	         {
-        	         if(arr[i]+arr[l]+arr[r]<x)
-        	         {
-        	             count=count+(r-l);
-        	             l++;
-        	         }
-        	         else
-        	         {
-        	             r--;
-        	         }
-    	         }
-	     }
-	     return count;
-	}
+    public:
+    long long countTriplets(int n, long long sum, long long arr[])
+    {
+        int count=0;
+        sort(arr,arr+n);
+        
+        for(int i=0;i<n;i++)
+        {
+            int low=i+1;
+            int high=n-1;
+		
+            while(low<high)
+            {
+                if(arr[low] + arr[high] + arr[i] < (sum))
+                {
+                    count = count + (high - low);
+                    low++;
+                }
+                else
+                {
+                    high--;
+                }
+            }
+        }
+        return count;
+    }
 };
