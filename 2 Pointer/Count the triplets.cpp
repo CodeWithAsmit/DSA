@@ -2,33 +2,35 @@
 
 class Solution
 {
-public:	
-int countTriplet(int arr[], int n)
-{
-        sort(arr,arr+n);
+    public:
+    int countTriplet(vector<int>& arr)
+    {
         int count=0;
-        for(int i=0;i<n;i++)
+        sort(arr.begin(),arr.end());
+        
+        for(int i=0;i<arr.size();i++)
         {
-            int l=0;
-            int r=n-1;
-            while(l<r)
+            int low=0;
+            int high=arr.size()-1;
+            
+            while(low<high)
             {
-                if(arr[l]+arr[r]==arr[i])
+                if(arr[low]+arr[high]==arr[i])
                 {
                     count++;
-                    l++;
-                    r--;
+                    low++;
+                    high--;
                 }
-                else if(arr[l]+arr[r]<arr[i])
+                else if(arr[low]+arr[high]<arr[i])
                 {
-                    l++;
+                    low++;
                 }
                 else
                 {
-                    r--;
+                    high--;
                 }
             }
         }
         return count;
-}
+    }
 };
