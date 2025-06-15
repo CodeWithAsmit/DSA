@@ -5,37 +5,37 @@ class Solution
 public:
     int threeSumClosest(vector<int>& nums, int target)
     {
-        int n=nums.size();
         sort(nums.begin(),nums.end());
-        int ans=INT_MAX;
-        int res=-1;
+        int requiredSum = nums[0] + nums[1] + nums[2];
 
-        for(int i=0;i<n-1;i++)
+        for(int i=0;i<nums.size();i++)
         {
-            int l=i+1;
-            int r=n-1;
-            while(l<r)
+            int low = i+1;
+            int high = nums.size()-1;
+
+            while(low<high)
             {
-                int sum=nums[i]+nums[l]+nums[r];
-                if(sum==target)
+                int currentSum = nums[i] + nums[low] + nums[high];
+
+                if(currentSum==target)
                 {
-                    return sum;
+                    return target;
                 }
-                else if(sum>target)
+                else if(currentSum > target)
                 {
-                    r--;
+                    high--;
                 }
                 else
                 {
-                    l++;
+                    low++;
                 }
-                if(abs(sum-target)<ans)
+
+                if(abs(target - requiredSum) > abs(target - currentSum))
                 {
-                    ans=min(ans,abs(sum-target));
-                    res=sum;
+                    requiredSum = currentSum;
                 }
             }
         }
-        return res;    
+        return requiredSum;    
     }
 };
