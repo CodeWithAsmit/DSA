@@ -5,35 +5,37 @@
 class Solution
 {
 public:
-    void solve(int open,int close,string op,vector<string>&res)
+    void solve(int openLeftCnt, int closeLeftCnt, string &tempString, vector<string> &ansVector)
     {
-        if(open==0&&close==0)
+        if(openLeftCnt == 0 && closeLeftCnt == 0)
         {
-            res.push_back(op);
+            ansVector.push_back(tempString);
             return;
         }
-        if(open>0)
+
+        if(openLeftCnt>0)
         {
-            string op1=op;
-            op1.push_back('(');
-            solve(open-1,close,op1,res);
+            tempString = tempString + '(';
+            solve(openLeftCnt - 1, closeLeftCnt, tempString, ansVector);
+            tempString.pop_back();
         }
-        if(close>open)
+        
+        if(openLeftCnt < closeLeftCnt)
         {
-            string op2=op;
-            op2.push_back(')');
-            solve(open,close-1,op2,res);
+            if(closeLeftCnt>0)
+            {
+                tempString = tempString + ')';
+                solve(openLeftCnt, closeLeftCnt - 1, tempString, ansVector);
+                tempString.pop_back();
+            }
         }
         return;
-        
     }
     vector<string> generateParenthesis(int n)
     {
-         vector<string>res;
-         string op;
-         int open=n;
-         int close=n;
-         solve(open,close,op,res);
-         return res;
+        string tempString="(";
+        vector<string>ansVector;  
+        solve(n-1,n,tempString,ansVector);
+        return ansVector;
     }
 };
