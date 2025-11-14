@@ -1,4 +1,4 @@
-/* Approach 1 --> Recursion Time :- O() Space :- O() */
+/* Approach 1 --> Recursion --> Time :- O(2^(m+n)) Space :- O(m+n) */
 
 class Solution
 {
@@ -26,7 +26,7 @@ class Solution
     }
 };
 
-/* Approach 2 --> Recursion Memorized :- O() Space :- O() */
+/* Approach 2 --> Recursion Memorized --> Time :- O(m*n) Space :- O(m*n) */
 
 class Solution
 {
@@ -62,22 +62,55 @@ class Solution
 };
 
 
-/* Efficient Approach 2 --> DP Time :- O(m*n) Space :- O(m*n) */
+/* Approach 3 --> DP --> Time :- O(m*n) Space :- O(m*n) */
 
-int dp[11][11]={0};
-
-long long  numberOfPaths(int m, int n)
+class Solution
 {
-    if(m==1||n==1)
+    public:
+    int pathDP[101][101]={0};
+    int numberOfPaths(int m, int n)
     {
-        return dp[m][n] = 1;
+        if(m==1||n==1)
+        {
+            return pathDP[m][n] = 1;
+        }
+        else if(pathDP[m][n]!=0)
+        {
+            return pathDP[m][n];
+        }
+        else
+        {
+            return pathDP[m][n] = numberOfPaths(m,n-1) + numberOfPaths(m-1,n);
+        }
     }
-    else if(dp[m][n]!=0)
+};
+
+/* Approach 4 --> NCR --> Time :- O(min(m, n)) Space :- O(1) */
+
+class Solution
+{
+    public:
+    long long nCr(int n, int r)
     {
-        return dp[m][n];
+        if (r > n - r)
+        {
+            r = n - r;
+        }
+        
+        long long res = 1;
+
+        for (int i = 1; i <= r; i++)
+        {
+            res = res * (n - r + i) / i;
+        }
+
+        return res;
     }
-    else
+
+    long long numberOfPaths(int m, int n)
     {
-        return dp[m][n] = numberOfPaths(m,n-1) + numberOfPaths(m-1,n);
+        int totalMoves = m + n - 2;
+        int downMoves = m - 1;
+        return nCr(totalMoves, downMoves);
     }
-}
+};
