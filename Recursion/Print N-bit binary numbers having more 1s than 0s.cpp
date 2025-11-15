@@ -1,36 +1,39 @@
 /* Time :- O(2^n) Space :- O[n*(2^n)] */
 
-/* Solve function time complexity is O(1) and solve function is called O(2^n) times so overall time is --> O(2^n) */
-
 class Solution
 {
-public:	
-    void solve(string op,int one,int zero,int n,vector<string>&ans)
+  public:
+    void solve(int oneLeftCnt, int zeroLeftCnt, int totalLength, string &tempString, vector<string> &ansVector)
     {
-        if(n==0)
+        if(tempString.length()==totalLength)
         {
-            ans.push_back(op);
+            ansVector.push_back(tempString);
             return;
         }
-        string op1=op;
-        op1.push_back('1');
-        solve(op1,one-1,zero,n-1,ans);
-        if(zero>one)
+
+        if(oneLeftCnt>0)
         {
-            string op2=op;
-            op2.push_back('0');
-            solve(op2,one,zero-1,n-1,ans);
+            tempString = tempString + '1';
+            solve(oneLeftCnt - 1, zeroLeftCnt, totalLength, tempString, ansVector);
+            tempString.pop_back();
+        }
+        
+        if(oneLeftCnt < zeroLeftCnt)
+        {
+            if(zeroLeftCnt>0)
+            {
+                tempString = tempString + '0';
+                solve(oneLeftCnt, zeroLeftCnt - 1, totalLength, tempString, ansVector);
+                tempString.pop_back();
+            }
         }
         return;
     }
-	vector<string> NBitBinary(int N)
-	{
-	    string op;
-	    int one=N-1;
-	    int zero=N;
-	    op.push_back('1');
-	    vector<string>ans;
-	    solve(op,one,zero,N-1,ans);
-	    return ans;
-	}
+    vector<string> NBitBinary(int n)
+    {
+        string tempString="1";
+        vector<string>ansVector;  
+        solve(n-1,n,n,tempString,ansVector);
+        return ansVector;
+    }
 };
