@@ -4,24 +4,25 @@
 
 class Solution
 {
-public:
-void subsets1(vector<int>&nums,vector<vector<int>> &v , int i , vector<int>ans )
+    public:
+    void solve(int idx, vector<int> curVector, vector<int> &arr, vector<vector<int>> &result)
     {
-          if(i==nums.size())
-          {
-            v.push_back(ans);
+        if(idx==arr.size())
+        {
+            result.push_back(curVector);
             return;
-          }
-          subsets1(nums , v , i+1 , ans);
-          ans.push_back(nums[i]);
-          subsets1(nums , v , i+1 , ans);
-      }
-      vector<vector<int>> subsets(vector<int>& nums)
-      {
-        vector<vector<int>> v;
-        vector<int> ans;
-        int n = nums.size();
-        subsets1(nums , v , 0 , ans);
-        return v;
+        }
+
+        solve(idx + 1, curVector, arr, result);
+        curVector.push_back(arr[idx]);
+        solve(idx + 1, curVector, arr, result);
+        return;
+    }
+    vector<vector<int>> subsets(vector<int>& nums)
+    {
+        vector<int>tempVector;
+        vector<vector<int>>result;
+        solve(0,tempVector,nums,result);
+        return result;
     }
 };
