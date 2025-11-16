@@ -4,29 +4,31 @@
 
 /* Accoring to problem we can do it as 2+3+2+3+2+3=6+9 or (n*k) means (23*3) = 69 */
 
-long long int solve(long long int num)
+int sumOfAllDigit(string mainString)
 {
-    if(num<=9)
+    int sum=0;
+    for(char it : mainString)
     {
-        return num;
+        sum = sum + it-'0';
     }
-    long long int sum=0;
-    while(num>0)
-    {
-        sum=sum+(num%10);
-        num=num/10;
-    }
-    return solve(sum);
+    return sum;
 }
 
-int superDigit(string n, int k)
+int solve(int sum, string mainString)
 {
-	long long int sum=0;
-	for(int i=0; i<n.size(); i++)
-	{
-	    sum = sum + n[i] - '0';
-	}
-	return solve(sum*k);
+    if(sum<10)
+    {
+        return sum;
+    }
+    sum = sumOfAllDigit(mainString);    
+    return solve(sum, to_string(sum));
+}
+
+int superDigit(string mainString, int k)
+{
+    long long sum = sumOfAllDigit(mainString);
+    sum = sum * k;
+    return solve(sum, to_string(sum));
 }
 
 /* Approach 2 --> Iterative */
