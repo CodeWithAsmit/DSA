@@ -2,10 +2,14 @@
 
 class Solution
 {
-    public:
-    void deleteNode(Node *del)
+  public:
+    void deleteNode(Node* del_node)
     {
-       del->data=del->next->data;
-       del->next=del->next->next;
+        Node* temp = del_node->next;
+        
+        del_node->data = temp->data;
+        del_node->next = temp->next;
+        
+        delete temp;
     }
 };

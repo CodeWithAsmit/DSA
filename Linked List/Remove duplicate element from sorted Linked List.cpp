@@ -1,18 +1,23 @@
 /* Time :- O(N) Space :- O(1) */
 
-Node *removeDuplicates(Node *head)
+class Solution
 {
-    Node* temp=head;
-    while(temp->next!=NULL)
+  public:
+    Node* removeDuplicates(Node* head)
     {
-        if(temp->data==temp->next->data)
+        Node* moveList = head;
+        
+        while(moveList->next!=NULL)
         {
-            temp->next=temp->next->next;
+            if(moveList->data == moveList->next->data)
+            {
+                moveList->next=moveList->next->next;
+            }
+            else
+            {
+                moveList = moveList->next;
+            }
         }
-        else
-        {
-            temp=temp->next;
-        }
+        return head;
     }
-    return head;
-}
+};

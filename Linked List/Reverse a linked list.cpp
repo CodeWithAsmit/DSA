@@ -22,17 +22,23 @@ class Solution
 
 class Solution
 {
-    public:
-    struct Node* reverseList(struct Node *head)
+public:
+    ListNode* reverseList(ListNode* head)
     {
-        Node* curr=head;
-        Node* prev=NULL;
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        
+        if(head == NULL || head->next == NULL)
+        {
+            return head;
+        }   
+
         while(curr!=NULL)
         {
-            Node* temp=curr->next;   /*Always points to next node*/
-            curr->next=prev;         /*current node will store references of previous node*/
-            prev=curr;               /*prev moves forward*/
-            curr=temp;               /*current also moves forward that is why its next was stored in temp earlier.*/
+            ListNode* nextTemp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextTemp;
         }
         return prev;
     }

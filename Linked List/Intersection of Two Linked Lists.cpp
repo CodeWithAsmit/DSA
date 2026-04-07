@@ -3,35 +3,29 @@
 class Solution
 {
 public:
-Node* findIntersection(Node* head1, Node* head2)
-{
-    unordered_set<int>s;
-    vector<int>v;
-    Node* r1=head1;
-    Node* r2=head2;
-    
-    while(r2!=NULL)
+    Node* findIntersection(Node* head1, Node* head2)
     {
-        s.insert(r2->data);
-        r2=r2->next;
-    }
-    while(r1!=NULL)
-    {
-        if(s.find(r1->data)!=s.end())
+        unordered_set<int> st;
+        
+        while(head2!=NULL)
         {
-            v.push_back(r1->data);
+            st.insert(head2->data);
+            head2 = head2->next;
         }
-        r1=r1->next;
-    }
-    Node* ans = new Node(-1);
-    Node* res=ans;
     
-    for(int i=0;i<v.size();i++)
-    {
-        Node* temp=new Node(v[i]);
-        ans->next=temp;
-        ans=ans->next;
+        Node* resultantList = new Node(-1);
+        Node* tempMove = resultantList;
+    
+        while(head1!=NULL)
+        {
+            if(st.find(head1->data) != st.end())
+            {
+                tempMove->next = new Node(head1->data);
+                tempMove = tempMove->next;
+            }
+            head1 = head1->next;
+        }
+    
+        return resultantList->next;
     }
-    return res->next;
-}
 };

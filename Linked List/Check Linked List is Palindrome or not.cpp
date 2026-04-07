@@ -3,41 +3,63 @@
 class Solution
 {
 public:
-    ListNode* reverse(ListNode* head)        
+
+    ListNode* reverse(ListNode* head)
     {
-         if(head==NULL||head->next==NULL)
-         {
-             return head;
-         }
-         ListNode* ans=reverse(head->next);
-         ListNode* nextNode=head->next;
-         nextNode->next=head;
-         head->next=NULL;
-         return ans;
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+
+        while (curr != NULL)
+        {
+            ListNode* nextTemp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
     }
-    
+
+    ListNode* findMidElement(ListNode* head)
+    {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast != NULL && fast->next != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        if (fast != NULL)
+        {
+            slow = slow->next;
+        }
+        return slow;
+    }
+
+    bool checkPalindrome(ListNode* head, ListNode* secondHalf)
+    {
+        while (secondHalf != NULL)
+        {
+            if (head->val != secondHalf->val)
+            {
+                return false;
+            }
+            head = head->next;
+            secondHalf = secondHalf->next;
+        }
+        return true;
+    }
+
     bool isPalindrome(ListNode* head)
     {
-        ListNode* slow=head;
-        ListNode* fast=head;
-        
-        while(fast!=NULL&&fast->next!=NULL)   /* O(N) */
+        if (head == NULL || head->next == NULL)
         {
-            slow=slow->next;
-            fast=fast->next->next;
+            return true;
         }
-        
-        slow=reverse(slow);                /* O(N) */
-        
-        while(slow!=NULL)
-        {
-            if(head->val!=slow->val)
-            {
-                return 0;
-            }
-            slow=slow->next;
-            head=head->next;
-        }
-        return 1;
+
+        ListNode* secondHalf = findMidElement(head);
+        secondHalf = reverse(secondHalf);
+        return checkPalindrome(head, secondHalf);
     }
 };

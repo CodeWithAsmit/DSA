@@ -1,24 +1,32 @@
 /* Time :- O(N) Space :- O(1) */
 
-bool isCircular(Node *head)
+class Solution
 {
-    if(head->next==NULL)
+public:
+    bool isCircular(Node *head)
     {
-        return 0;
-    }
-    if(head->next->next==head)
-    {
-        return true;
-    }
-    
-    Node* temp = head->next;
-    while(temp->next!=head)
-    {
-        if(temp->next==NULL)
+        if (head == NULL)
         {
-            return 0;
+            return true;
         }
-        temp=temp->next;
+    
+        Node* temp = head;
+    
+        while (temp != NULL)
+        {
+            if (temp->next == NULL)
+            {
+                return false;
+            }
+            else if (temp->next == head)
+            {
+                return true;
+            }
+            else
+            {
+                temp = temp->next;
+            }
+        }
+        return false;
     }
-    return 1;
-}
+};
